@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace SQATA1Rectangle
 {
+    /// <summary>
+    /// Main program class
+    /// </summary>
     class Program
     {
         private const int EXIT_CODE = 7;
@@ -52,6 +55,10 @@ namespace SQATA1Rectangle
             } while (optionCode != EXIT_CODE);
         }
 
+        /// <summary>
+        /// Executes the action according to the option code
+        /// </summary>
+        /// <param name="optionCode">target option</param>
         private static void ExecuteAction(int optionCode)
         {
             switch (optionCode)
@@ -79,6 +86,10 @@ namespace SQATA1Rectangle
             }
         }
 
+        /// <summary>
+        /// Auxiliary method to set width and handle exceptions
+        /// </summary>
+        /// <returns></returns>
         private static bool SetWidth()
         {
             int width = ReadValidInteger();
@@ -100,6 +111,10 @@ namespace SQATA1Rectangle
             return false;
         }
 
+        /// <summary>
+        /// Auxiliary method to set length and handle exceptions
+        /// </summary>
+        /// <returns></returns>
         private static bool SetLength()
         {
             int length = ReadValidInteger();
@@ -121,12 +136,19 @@ namespace SQATA1Rectangle
             return false;
         }
 
+        /// <summary>
+        /// Auxiliary method to show the list of possible options
+        /// </summary>
         private static void ShowListOfOptions()
         {
             Console.WriteLine("Please, choose one of the following options:");
             Console.WriteLine(String.Join("\n", _options.Select(o => $"{o.Key}. {o.Value}")));
         }
 
+        /// <summary>
+        /// Auxiliary method to read option code and handle exceptions
+        /// </summary>
+        /// <returns></returns>
         private static int ReadOptionCode()
         {
             bool correct = false;
@@ -156,6 +178,10 @@ namespace SQATA1Rectangle
             return EXIT_CODE;
         }
 
+        /// <summary>
+        /// Auxiliary method to read a valid integer and handle exceptions
+        /// </summary>
+        /// <returns></returns>
         private static int ReadValidInteger()
         {
             bool correct = false;
