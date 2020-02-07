@@ -1,12 +1,167 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SQATA1Rectangle
 {
     class Program
     {
+        private const int EXIT_CODE = 7;
+
+        private static readonly Dictionary<int, string> _options = new Dictionary<int, string>()
+        {
+            { 1, "Get Rectangle Length" },
+            { 2, "Change Rectangle Length" },
+            { 3, "Get Rectangle Width" },
+            { 4, "Change Rectangle Width" },
+            { 5, "Get Rectangle Perimeter" },
+            { 6, "Get Rectangle Area" },
+            { 7, "Exit" }
+        };
+
+        private static readonly Rectangle _rectangle = new Rectangle();
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            int optionCode;
+            do
+            {
+                ShowListOfOptions();
+                optionCode = ReadOptionCode();
+
+                if (optionCode != EXIT_CODE)
+                {
+                    ExecuteAction(optionCode);
+                }
+            } while (optionCode != EXIT_CODE);
+        }
+
+        private static void ExecuteAction(int optionCode)
+        {
+            switch (optionCode)
+            {
+                case 1:
+                    Console.WriteLine($"Rectangle length: {_rectangle.GetLength()}");
+                    break;
+                case 2:
+                    Console.WriteLine($"Rectangle length {(SetLength() ? "" : "was not")} updated");
+                    break;
+                case 3:
+                    Console.WriteLine($"Rectangle width: {_rectangle.GetWidth()}");
+                    break;
+                case 4:
+                    Console.WriteLine($"Rectangle width {(SetWidth() ? "" : "was not")} updated");
+                    break;
+                case 5:
+                    Console.WriteLine($"Rectangle perimeter: {_rectangle.GetPerimeter()}");
+                    break;
+                case 6:
+                    Console.WriteLine($"Rectangle area: {_rectangle.GetArea()}");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private static bool SetWidth()
+        {
+            int width = ReadValidInteger();
+            
+            try
+            {
+                _rectangle.SetWidth(width);
+                return true;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Value not allowed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected exception: {ex.Message}");
+            }
+
+            return false;
+        }
+
+        private static bool SetLength()
+        {
+            int length = ReadValidInteger();
+
+            try
+            {
+                _rectangle.SetLength(length);
+                return true;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine($"Value not allowed: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected exception: {ex.Message}");
+            }
+
+            return false;
+        }
+
+        private static void ShowListOfOptions()
+        {
+            Console.WriteLine("Please, choose one of the following options:");
+            Console.WriteLine(String.Join("\n", _options.Select(o => $"{o.Key}. {o.Value}")));
+        }
+
+        private static int ReadOptionCode()
+        {
+            bool correct = false;
+            do
+            {
+                bool validInteger = int.TryParse(Console.ReadLine(), out int value);
+                if (validInteger)
+                {
+                    if (value == 0)
+                        return 0;
+
+                    if (_options.ContainsKey(value))
+                    {
+                        return value;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please inform a code in the list above or '0' to stop purchasing");
+                        ShowListOfOptions();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Please inform a valid integer number");
+                    ShowListOfOptions();
+                }
+            }
+            while (!correct);
+
+            return EXIT_CODE;
+        }
+
+        private static int ReadValidInteger()
+        {
+            bool correct = false;
+            do
+            {
+                Console.Write("New value: ");
+                bool validInteger = int.TryParse(Console.ReadLine(), out int value);
+                if (validInteger)
+                {
+                    return value;
+                }
+                else
+                {
+                    Console.WriteLine("Please inform a valid integer number");
+                }
+            }
+            while (!correct);
+
+            return 0;
         }
     }
 }

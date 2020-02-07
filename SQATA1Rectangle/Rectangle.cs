@@ -6,13 +6,16 @@ namespace SQATA1Rectangle
 {
     public class Rectangle
     {
+        private const int MIN_LENGTH = 1;
+        private const int MIN_WIDTH = 1;
+
         private int length;
         private int width;
 
         public Rectangle()
         {
-            length = 1;
-            width = 1;
+            length = MIN_LENGTH;
+            width = MIN_WIDTH;
         }
 
         public Rectangle(int length, int width)
@@ -28,6 +31,11 @@ namespace SQATA1Rectangle
 
         public void SetLength(int length) 
         {
+            if (length < MIN_LENGTH)
+            {
+                throw new ArgumentOutOfRangeException($"Value {length} is less than {MIN_LENGTH}");
+            }
+
             this.length = length;
         }
         
@@ -37,7 +45,12 @@ namespace SQATA1Rectangle
         }
 
         public void SetWidth(int width) 
-        { 
+        {
+            if (width < MIN_WIDTH)
+            { 
+                throw new ArgumentOutOfRangeException($"Value {width} is less than {MIN_WIDTH}"); 
+            }
+
             this.width = width; 
         }
         
