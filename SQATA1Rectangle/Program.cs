@@ -19,10 +19,26 @@ namespace SQATA1Rectangle
             { 7, "Exit" }
         };
 
-        private static readonly Rectangle _rectangle = new Rectangle();
+        private static Rectangle _rectangle;
 
         static void Main(string[] args)
         {
+            Console.WriteLine("Please, enter the length of the rectangle");
+            int length = ReadValidInteger();
+
+            Console.WriteLine("Please, enter the width of the rectangle");
+            int width = ReadValidInteger();
+
+            try
+            {
+                _rectangle = new Rectangle(length, width);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Error creating rectangle: {ex.Message}");
+                return;
+            }
+            
             int optionCode;
             do
             {
@@ -119,16 +135,13 @@ namespace SQATA1Rectangle
                 bool validInteger = int.TryParse(Console.ReadLine(), out int value);
                 if (validInteger)
                 {
-                    if (value == 0)
-                        return 0;
-
                     if (_options.ContainsKey(value))
                     {
                         return value;
                     }
                     else
                     {
-                        Console.WriteLine("Please inform a code in the list above or '0' to stop purchasing");
+                        Console.WriteLine("Please inform a code in the list above");
                         ShowListOfOptions();
                     }
                 }
@@ -148,11 +161,18 @@ namespace SQATA1Rectangle
             bool correct = false;
             do
             {
-                Console.Write("New value: ");
+                Console.Write("Value: ");
                 bool validInteger = int.TryParse(Console.ReadLine(), out int value);
                 if (validInteger)
                 {
-                    return value;
+                    if (value <= 0)
+                    {
+                        Console.WriteLine("Please inform an integer greater than 0");
+                    }
+                    else
+                    {
+                        return value;
+                    }
                 }
                 else
                 {

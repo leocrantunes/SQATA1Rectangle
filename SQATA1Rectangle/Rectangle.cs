@@ -20,6 +20,9 @@ namespace SQATA1Rectangle
 
         public Rectangle(int length, int width)
         {
+            ValidateLength(length);
+            ValidateWidth(width);
+
             this.length = length;
             this.width = width;
         }
@@ -29,14 +32,13 @@ namespace SQATA1Rectangle
             return length;
         }
 
-        public void SetLength(int length) 
+        public int SetLength(int length) 
         {
-            if (length < MIN_LENGTH)
-            {
-                throw new ArgumentOutOfRangeException($"Value {length} is less than {MIN_LENGTH}");
-            }
+            ValidateLength(length);
 
             this.length = length;
+
+            return this.length;
         }
         
         public int GetWidth()
@@ -44,14 +46,13 @@ namespace SQATA1Rectangle
             return width;
         }
 
-        public void SetWidth(int width) 
+        public int SetWidth(int width) 
         {
-            if (width < MIN_WIDTH)
-            { 
-                throw new ArgumentOutOfRangeException($"Value {width} is less than {MIN_WIDTH}"); 
-            }
+            ValidateWidth(width);
 
-            this.width = width; 
+            this.width = width;
+
+            return this.width;
         }
         
         public int GetPerimeter() 
@@ -62,6 +63,22 @@ namespace SQATA1Rectangle
         public int GetArea() 
         {
             return length * width;
+        }
+
+        private void ValidateLength(int length)
+        {
+            if (length < MIN_LENGTH)
+            {
+                throw new ArgumentOutOfRangeException($"Length value '{length}' is less than '{MIN_LENGTH}'");
+            }
+        }
+
+        private void ValidateWidth(int width)
+        {
+            if (width < MIN_WIDTH)
+            {
+                throw new ArgumentOutOfRangeException($"Width value '{width}' is less than '{MIN_WIDTH}'");
+            }
         }
     }
 }
